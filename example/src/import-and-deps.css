@@ -1,0 +1,7 @@
+@deps "./import-url";
+@import "helper/vars";
+
+.import-and-deps {
+  color: $red;
+}
+
