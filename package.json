@@ -12,7 +12,10 @@
   },
   "keywords": [
     "css",
+    "module-deps",
     "dependencies",
+    "dependency",
+    "graph",
     "reduce-css"
   ],
   "author": "zoubin",
