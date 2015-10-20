@@ -18,7 +18,7 @@ test('processor', function(t) {
   let stream = new Depsify({
     basedir: fixtures(),
     processor: (result) => {
-      return processor.process(result.css, { from: result.from, to: result.to })
+      return processor.process(result.css, { from: result.from, to: result.from })
         .then((res) => {
           result.css = res.css
         })
