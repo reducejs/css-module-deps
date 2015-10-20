@@ -33,11 +33,13 @@ test('processor', function(t) {
           './import-url': fixtures('import-url.css'),
         },
         file: fixtures('import-and-deps.css'),
+        id: fixtures('import-and-deps.css'),
         source: '.import-and-deps {\n  color: #FF0000;\n}\n\n',
       },
       {
         deps: {},
         file: fixtures('import-url.css'),
+        id: fixtures('import-url.css'),
         source: '.dialog {\n  background: url(node_modules/sprites/dialog/sp-dialog.png)\n}\n.importUrl{}\n\n',
       },
     ]))

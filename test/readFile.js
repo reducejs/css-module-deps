@@ -16,8 +16,8 @@ test('readFile', function(t) {
   stream.end({ file: '/b' })
   return stream.pipe(sink.obj((rows, done) => {
     t.same(rows, [
-      { file: '/a', deps: {}, source: 'a{}' },
-      { file: '/b', deps: {}, source: 'b{}' },
+      { id: '/a', file: '/a', deps: {}, source: 'a{}' },
+      { id: '/b', file: '/b', deps: {}, source: 'b{}' },
     ])
     done()
   }))
