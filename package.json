@@ -1,6 +1,6 @@
 {
   "name": "css-module-deps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "walk the css dependency graph to generate a stream of json output",
   "main": "index.js",
   "scripts": {
