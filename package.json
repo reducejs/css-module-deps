@@ -28,7 +28,6 @@
     "custom-resolve": "^0.2.1",
     "node-promisify": "^0.2.2",
     "postcss": "^5.0.10",
-    "task-tape": "^1.0.0",
     "util-mix": "^3.0.2"
   },
   "devDependencies": {
