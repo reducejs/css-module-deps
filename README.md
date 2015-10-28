@@ -9,6 +9,10 @@ walk the css dependency graph to generate a stream of json output.
 [![dependencies](https://david-dm.org/zoubin/css-module-deps.svg)](https://david-dm.org/zoubin/css-module-deps)
 [![devDependencies](https://david-dm.org/zoubin/css-module-deps/dev-status.svg)](https://david-dm.org/zoubin/css-module-deps#info=devDependencies)
 
+## Related
+* [depsify](https://github.com/zoubin/depsify)
+* [reduce-css](https://github.com/zoubin/reduce-css)
+
 ## Example
 
 ```javascript
@@ -110,7 +114,30 @@ and produces objects for every dependency from a recursive module traversal as o
 
 ### opts
 
+#### resolve
+Specify how to resolve a file path
+
+Type: `Function`
+
+Receives the string to be resolved, and an option object with `basedir`.
+
+Should return a promise which resolves to the absolute path.
+
+
+#### noParse
+Specify which files not to parse.
+
+Type: `Array`
+
+Elements could be:
+
+* `String`: file paths, relative to `opts.basedir`
+* `Function`: receives the file path, and if return true, that file will be skipped
+* `RegExp`: `.test` the file path
+
+
 #### atDeps
+Specify the name of at-rules to declare a dependency
 
 Type: `String`
 
@@ -119,12 +146,11 @@ Default: `deps`
 Dependencies are declared through the `@deps` at-rule by default.
 
 #### processor
-
-Type: `Function`, `Array`
-
 Processors are used to transform each file in the dependency graph.
 
 You can use [postcss](https://github.com/postcss/postcss), [node-sass](https://github.com/sass/node-sass), etc.
+
+Type: `Function`, `Array`
 
 Signature: `promise = fn(result)`
 
