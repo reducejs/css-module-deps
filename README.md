@@ -128,6 +128,8 @@ You can use [postcss](https://github.com/postcss/postcss), [node-sass](https://g
 
 Signature: `promise = fn(result)`
 
+In case of synchronous processors, no need to return a promise.
+
 `result` is an instance of `Result`.
 
 See [Result](#result).
