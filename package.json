@@ -28,6 +28,7 @@
     "custom-resolve": "^0.2.1",
     "node-promisify": "^0.2.2",
     "postcss": "^5.0.10",
+    "task-tape": "^1.0.0",
     "util-mix": "^3.0.2"
   },
   "devDependencies": {
@@ -49,6 +50,6 @@
     "sink-transform": "^1.0.0",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.0",
-    "task-tape": "^0.1.0"
+    "task-tape": "^1.0.0"
   }
 }
