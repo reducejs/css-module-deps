@@ -1,24 +1,25 @@
-import test from 'tape'
-import Depsify from '../lib/main'
-import sink from 'sink-transform'
-import path from 'path'
+var test = require('tap').test
+var Deps = require('..')
+var path = require('path')
+var concat = require('concat-stream')
 
 test('readFile', function(t) {
-  let stream = new Depsify({
-    resolve: (file) => {
+  t.plan(1)
+  var stream = Deps({
+    resolve: function (file) {
       return Promise.resolve(file)
     },
-    readFile: (file) => {
+    readFile: function (file) {
       return Promise.resolve(path.basename(file) + '{}')
     },
   })
   stream.write({ file: '/a' })
   stream.end({ file: '/b' })
-  return stream.pipe(sink.obj((rows, done) => {
+  stream.pipe(concat({ encoding: 'object' }, function (rows) {
     t.same(rows, [
       { id: '/a', file: '/a', deps: {}, source: 'a{}' },
       { id: '/b', file: '/b', deps: {}, source: 'b{}' },
     ])
-    done()
   }))
 })
+

@@ -1,26 +1,26 @@
-import test from 'tape'
-import Depsify from '../lib/main'
-import sink from 'sink-transform'
-import path from 'path'
+var test = require('tap').test
+var Deps = require('..')
+var path = require('path')
+var concat = require('concat-stream')
 
 var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'resolve')
 
 test('resolve', function(t) {
-  let stream = new Depsify({
+  t.plan(1)
+  var stream = Deps({
     basedir: fixtures(),
   })
-  stream.end({ file: './a' })
-  return stream.pipe(sink.obj((rows, done) => {
+  stream.end({ file: './a.css' })
+  stream.pipe(concat({ encoding: 'object' }, function (rows) {
     t.same(sort(rows), sort([
       { id: fixtures('a.css'), file: fixtures('a.css'), deps: { './b': fixtures('b.css') }, source: 'a{}\n' },
       { id: fixtures('b.css'), file: fixtures('b.css'), deps: {}, source: 'b{}\n' },
     ]))
-    done()
   }))
 })
 
 function sort(rows) {
-  rows.sort((a, b) => {
+  rows.sort(function (a, b) {
     if (a.file === b.file) {
       return 0
     }

@@ -1,19 +1,19 @@
-import test from 'tape'
-import Depsify from '../lib/main'
-import sink from 'sink-transform'
-import path from 'path'
-import atImport from 'postcss-import'
-import vars from 'postcss-advanced-variables'
-import url from 'postcss-url'
-import postcss from 'postcss'
+var test = require('tap').test
+var Deps = require('..')
+var path = require('path')
+var concat = require('concat-stream')
+var atImport = require('postcss-import')
+var vars = require('postcss-advanced-variables')
+var url = require('postcss-url')
+var postcss = require('postcss')
 
 var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'processor')
 
 test('processor', function(t) {
   t.plan(1)
-  let stream = new Depsify({
+  var stream = Deps({
     basedir: fixtures(),
-    processor,
+    processor: processor,
   })
   stream.write({ file: './import-url.css' })
   stream.end({ file: './import-and-deps.css' })
@@ -22,43 +22,29 @@ test('processor', function(t) {
 
 test('processor, from stream', function(t) {
   t.plan(1)
-  let stream = new Depsify({
+  var stream = Deps({
     basedir: fixtures(),
   })
-  stream.write({ processor })
-  stream.write({ file: './import-url.css' })
-  stream.end({ file: './import-and-deps.css' })
-  run(stream, t)
-})
-
-test('processor, with arguments', function(t) {
-  t.plan(3)
-  let stream = new Depsify({
-    basedir: fixtures(),
-    processor: [[function (result, a, b) {
-      t.same([a, b], [1, 2])
-      return processor(result)
-    }, 1, 2]],
-  })
+  stream.write({ processor: processor })
   stream.write({ file: './import-url.css' })
   stream.end({ file: './import-and-deps.css' })
   run(stream, t)
 })
 
 function processor(result) {
-  let p = postcss([
+  var p = postcss([
     atImport(),
     url(),
     vars(),
   ])
   return p.process(result.css, { from: result.from, to: result.from })
-    .then((res) => {
+    .then(function (res) {
       result.css = res.css
     })
 }
 
 function run(stream, t) {
-  stream.pipe(sink.obj((rows, done) => {
+  stream.pipe(concat({ encoding: 'object' }, function (rows) {
     t.same(sort(rows), sort([
       {
         deps: {
@@ -75,12 +61,11 @@ function run(stream, t) {
         source: '.dialog {\n  background: url(node_modules/sprites/dialog/sp-dialog.png)\n}\n.importUrl{}\n\n',
       },
     ]))
-    done()
   }))
 }
 
 function sort(rows) {
-  rows.sort((a, b) => {
+  rows.sort(function (a, b) {
     if (a.file === b.file) {
       return 0
     }

@@ -125,16 +125,11 @@ Should return a promise which resolves to the absolute path.
 
 
 #### noParse
-Specify which files not to parse.
+Specify which files to skip parsing.
 
 Type: `Array`
 
-Elements could be:
-
-* `String`: file paths, relative to `opts.basedir`
-* `Function`: receives the file path, and if return true, that file will be skipped
-* `RegExp`: `.test` the file path
-
+Passed to [`multimatch`](https://github.com/sindresorhus/multimatch) to do matching.
 
 #### atDeps
 Specify the name of at-rules to declare a dependency

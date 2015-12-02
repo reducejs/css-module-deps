@@ -1,17 +1,17 @@
-import test from 'tape'
-import Result from '../lib/result'
-import postcss from 'postcss'
+var test = require('tap').test
+var Result = require('../lib/result')
+var postcss = require('postcss')
 
 test('result', function(t) {
-  let row = {
+  var row = {
     source: '.a{} @import "c";',
     from: __dirname + '/fake.css',
   }
-  let res = new Result(row)
+  var res = new Result(row)
   t.equal(res.css, row.source)
   t.same(res._root, null)
 
-  let newSrc = '.b{} @import "c";'
+  var newSrc = '.b{} @import "c";'
   res.css = newSrc
 
   t.equal(
@@ -19,11 +19,14 @@ test('result', function(t) {
     newSrc
   )
 
-  res.root.walkAtRules('import', (rule) => {
+  res.root.walkAtRules('import', function (rule) {
     rule.remove()
   })
 
   t.equal(res.css, '.b{}')
+
+  res.root = postcss.parse('a{}')
+  t.equal(res.css, 'a{}')
 
   t.end()
 })

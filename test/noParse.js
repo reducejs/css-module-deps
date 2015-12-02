@@ -1,21 +1,15 @@
-import test from 'tape'
-import Depsify from '../lib/main'
-import sink from 'sink-transform'
-import path from 'path'
+var test = require('tap').test
+var Deps = require('..')
+var path = require('path')
+var concat = require('concat-stream')
 
 var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'source')
 
 test('noParse', function(t) {
-  let stream = new Depsify({
+  t.plan(1)
+  var stream = Deps({
     basedir: fixtures(),
-    noParse: [
-      './b.css',
-      function (file) {
-        return path.basename(file, '.css') === 'c'
-      },
-      /[de]\.css$/,
-      10,
-    ],
+    noParse: ['**/*.css', '!**/f.css'],
   })
   stream.write({ file: './a.css', noParse: true, source: '.a{}' })
   stream.write({ file: './b.css', source: '@deps "nonexist";.b{}' })
@@ -23,7 +17,7 @@ test('noParse', function(t) {
   stream.write({ file: './d.css', source: '@deps "nonexist";.d{}' })
   stream.write({ file: './e.css', source: '@deps "nonexist";.e{}' })
   stream.end({ file: './f.css', source: '.f{}' })
-  return stream.pipe(sink.obj((rows, done) => {
+  stream.pipe(concat({ encoding: 'object' }, function (rows) {
     t.same(sort(rows), sort([
       { id: fixtures('a.css'), file: fixtures('a.css'), noParse: true, deps: {}, source: '.a{}' },
       { id: fixtures('b.css'), file: fixtures('b.css'), deps: {}, source: '@deps "nonexist";.b{}' },
@@ -32,12 +26,11 @@ test('noParse', function(t) {
       { id: fixtures('e.css'), file: fixtures('e.css'), deps: {}, source: '@deps "nonexist";.e{}' },
       { id: fixtures('f.css'), file: fixtures('f.css'), deps: {}, source: '.f{}' },
     ]))
-    done()
   }))
 })
 
 function sort(rows) {
-  rows.sort((a, b) => {
+  rows.sort(function (a, b) {
     if (a.file === b.file) {
       return 0
     }
