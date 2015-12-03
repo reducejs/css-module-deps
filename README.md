@@ -174,6 +174,14 @@ Type: `String`
 
 Used to resolve input filenames.
 
+#### dependenciesFilter
+To filter the resolved dependencies.
+
+Type: `Function`
+
+Signature: `var newDeps = dependenciesFilter(deps, file)`
+
+
 ### Result
 
 `var r = new Result(row)`
