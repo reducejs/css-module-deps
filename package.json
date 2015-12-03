@@ -31,7 +31,8 @@
     "mixy": "^1.0.0",
     "multimatch": "^2.1.0",
     "node-promisify": "^1.0.0",
-    "postcss": "^5.0.10"
+    "postcss": "^5.0.10",
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "JSONStream": "^1.0.6",

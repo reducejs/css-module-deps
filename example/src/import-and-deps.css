@@ -1,4 +1,4 @@
-@deps "./import-url";
+@external "./import-url";
 @import "helper/vars";
 
 .import-and-deps {
