@@ -7,13 +7,6 @@
 
 Walk the css dependency graph to generate a stream of json output.
 
-## Breaking changes in 2.0.0
-
-* `Deps` is no constructor anymore.
-* `atDeps` is replaced by `atRuleName`
-* `processor` is replaced by `transform`
-* `noParse` only supports patterns.
-
 ## Related
 * [depsify](https://github.com/zoubin/depsify)
 * [reduce-css](https://github.com/zoubin/reduce-css)
@@ -24,28 +17,18 @@ Walk the css dependency graph to generate a stream of json output.
 ```javascript
 var Deps = require('..')
 var path = require('path')
-var postcss = require('postcss')
 var url = require('postcss-url')
 var atImport = require('postcss-import')
 var vars = require('postcss-advanced-variables')
 var JSONStream = require('JSONStream')
 
 var fixtures = path.resolve.bind(path, __dirname, 'src')
-var processor = postcss([ atImport(), url(), vars() ])
 
-var stream = Deps({ atRuleName: 'external', basedir: fixtures() })
-stream.write({
-  transform: function (result) {
-    return processor.process(result.css, {
-      from: result.from,
-      to: result.to,
-    })
-    .then(function (res) {
-      result.css = res.css
-    })
-  },
+var stream = Deps({
+  atRuleName: 'external',
+  basedir: fixtures(),
+  processor: [ atImport(), url(), vars() ],
 })
-stream.write({ file: './import-url.css' })
 stream.end({ file: './import-and-deps.css' })
 
 stream.pipe(
@@ -167,6 +150,13 @@ Signature: `fn(result)`
 Return a promise to make it asynchronous.
 
 `result` is an instance of [`Result`](#result).
+
+#### processor
+Specify [`postcss`](https://github.com/postcss/postcss-scss)
+plugins to transform css file contents.
+
+Type: `Array`
+
 
 #### basedir
 

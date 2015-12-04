@@ -281,6 +281,59 @@ test('transform', function(tt) {
   }
 })
 
+test('processor', function(tt) {
+  var atImport = require('postcss-import')()
+  var vars = require('postcss-advanced-variables')()
+  var url = require('postcss-url')()
+
+  var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'transform')
+
+  tt.test('from option', function(t) {
+    t.plan(1)
+    var stream = Deps({
+      basedir: fixtures(),
+      processor: [atImport, url, vars],
+    })
+    stream.end({ file: './import-and-deps.css' })
+    run(stream, t)
+  })
+
+  tt.test('from stream', function(t) {
+    t.plan(1)
+    var stream = Deps({
+      basedir: fixtures(),
+    })
+    stream.write({ processor: atImport })
+    stream.write({ processor: url })
+    stream.write({ processor: vars })
+    stream.end({ file: './import-and-deps.css' })
+    run(stream, t)
+  })
+
+  tt.end()
+
+  function run(stream, t) {
+    stream.pipe(concat({ encoding: 'object' }, function (rows) {
+      t.same(sort(rows), sort([
+        {
+          deps: {
+            './import-url': fixtures('import-url.css'),
+          },
+          file: fixtures('import-and-deps.css'),
+          id: fixtures('import-and-deps.css'),
+          source: '.import-and-deps {\n  color: #FF0000;\n}\n\n',
+        },
+        {
+          deps: {},
+          file: fixtures('import-url.css'),
+          id: fixtures('import-url.css'),
+          source: '.dialog {\n  background: url(node_modules/sprites/dialog/sp-dialog.png)\n}\n.importUrl{}\n\n',
+        },
+      ]))
+    }))
+  }
+})
+
 function sort(rows) {
   rows.sort(function (a, b) {
     if (a.file === b.file) {

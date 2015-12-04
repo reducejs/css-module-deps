@@ -12,16 +12,21 @@ module.exports = function (opts) {
     opts.resolve = resolver(opts.resolve)
   }
   opts.transform = [].concat(opts.transform).filter(Boolean)
+  opts.processor = [].concat(opts.processor).filter(Boolean)
   opts.atRuleName = opts.atRuleName || 'deps'
 
   var fakeFileOrder = 0
   var stream = thr.obj(write, end)
-  var walker = new Walker(opts)
   var inputs = []
 
   function write(row, _, next) {
     if (row.transform) {
       opts.transform.push(row.transform)
+      return next()
+    }
+
+    if (row.processor) {
+      opts.processor.push(row.processor)
       return next()
     }
 
@@ -37,6 +42,7 @@ module.exports = function (opts) {
   }
 
   function end(done) {
+    var walker = new Walker(opts)
     var state = walker.loop(inputs)
 
     state.on('file', stream.emit.bind(stream, 'file'))

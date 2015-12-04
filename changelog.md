@@ -2,6 +2,15 @@
 
 ## [v2.0.0](https://github.com/zoubin/css-module-deps/commit/1473cd7) (2015-12-03)
 
+### Breaking changes
+
+* `Deps` is no constructor anymore.
+* `atDeps` is replaced by `atRuleName`
+* `processor` is replaced by `transform`
+* `noParse` only supports patterns.
+
+### Commmits
+
 * [[`d27e19d`](https://github.com/zoubin/css-module-deps/commit/d27e19d)] Refactor. Breaking changes.
 
     
