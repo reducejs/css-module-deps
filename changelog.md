@@ -1,4 +1,14 @@
-<!-- 1473cd7 1449145735000 -->
+<!-- 5b12840 1449204544000 -->
+
+## [v2.1.0](https://github.com/zoubin/css-module-deps/commit/5b12840) (2015-12-04)
+
+* [[`559bfd4`](https://github.com/zoubin/css-module-deps/commit/559bfd4)] Add `processor` option for postcss-plugins
+
+* [[`e8a93f1`](https://github.com/zoubin/css-module-deps/commit/e8a93f1)] **Fix**: pass the `from` option when parse `result.root`
+
+* [[`f5eb58c`](https://github.com/zoubin/css-module-deps/commit/f5eb58c)] Readme for `dependenciesFilter`
+
+* [[`dd76ed9`](https://github.com/zoubin/css-module-deps/commit/dd76ed9)] CHANGELOG
 
 ## [v2.0.0](https://github.com/zoubin/css-module-deps/commit/1473cd7) (2015-12-03)
 
