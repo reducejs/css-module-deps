@@ -19,6 +19,8 @@ module.exports = function (opts) {
   var stream = thr.obj(write, end)
   var inputs = []
 
+  var dependenciesFilter = {}
+
   function write(row, _, next) {
     if (row.transform) {
       opts.transform.push(row.transform)
@@ -27,6 +29,11 @@ module.exports = function (opts) {
 
     if (row.processor) {
       opts.processor.push(row.processor)
+      return next()
+    }
+
+    if (row.dependenciesFilter && row.deps) {
+      dependenciesFilter[path.resolve(opts.basedir, row.dependenciesFilter)] = row.deps
       return next()
     }
 
@@ -42,6 +49,16 @@ module.exports = function (opts) {
   }
 
   function end(done) {
+    if (Object.keys(dependenciesFilter).length) {
+      var filterFn = opts.dependenciesFilter || identity
+      opts.dependenciesFilter = function (deps, file) {
+        if (dependenciesFilter[file]) {
+          deps = deps.concat(dependenciesFilter[file])
+        }
+        return filterFn(deps, file)
+      }
+    }
+
     var walker = new Walker(opts)
     var state = walker.loop(inputs)
 
@@ -69,5 +86,9 @@ module.exports = function (opts) {
 
   return stream
 
+}
+
+function identity(x) {
+  return x
 }
 

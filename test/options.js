@@ -39,21 +39,39 @@ test('cache', function(t) {
   }
 })
 
-test('dependenciesFilter', function(t) {
-  t.plan(1)
-  var stream = Deps({
-    dependenciesFilter: function (deps, from) {
-      return from === '/a' ? ['/b'] : []
-    },
+test('dependenciesFilter', function(tt) {
+  tt.test('options', function(t) {
+    t.plan(1)
+    var stream = Deps({
+      dependenciesFilter: function (deps, from) {
+        return from === '/a' ? ['/b'] : []
+      },
+    })
+    stream.write({ file: '/a', source: 'a{}' })
+    stream.end({ file: '/b', source: 'b{}' })
+    stream.pipe(concat({ encoding: 'object' }, function (rows) {
+      t.same(rows, [
+        { id: '/b', file: '/b', deps: {}, source: 'b{}' },
+        { id: '/a', file: '/a', deps: { '/b': '/b' }, source: 'a{}' },
+      ])
+    }))
   })
-  stream.write({ file: '/a', source: 'a{}' })
-  stream.end({ file: '/b', source: 'b{}' })
-  stream.pipe(concat({ encoding: 'object' }, function (rows) {
-    t.same(rows, [
-      { id: '/b', file: '/b', deps: {}, source: 'b{}' },
-      { id: '/a', file: '/a', deps: { '/b': '/b' }, source: 'a{}' },
-    ])
-  }))
+
+  tt.test('inputs', function(t) {
+    t.plan(1)
+    var stream = Deps()
+    stream.write({ file: '/a', source: 'a{}' })
+    stream.write({ dependenciesFilter: '/a', deps: '/b' })
+    stream.end({ file: '/b', source: 'b{}' })
+    stream.pipe(concat({ encoding: 'object' }, function (rows) {
+      t.same(rows, [
+        { id: '/b', file: '/b', deps: {}, source: 'b{}' },
+        { id: '/a', file: '/a', deps: { '/b': '/b' }, source: 'a{}' },
+      ])
+    }))
+  })
+
+  tt.end()
 })
 
 test('fileCache', function(t) {
