@@ -1,4 +1,10 @@
-<!-- 5b12840 1449204544000 -->
+<!-- 00592da 1449576093000 -->
+
+## [v2.2.0](https://github.com/zoubin/css-module-deps/commit/00592da) (2015-12-08)
+
+* [[`b39f62c`](https://github.com/zoubin/css-module-deps/commit/b39f62c)] Support dependenciesFilter input
+
+* [[`8c19ba5`](https://github.com/zoubin/css-module-deps/commit/8c19ba5)] CHANGELOG
 
 ## [v2.1.0](https://github.com/zoubin/css-module-deps/commit/5b12840) (2015-12-04)
 
