@@ -32,8 +32,9 @@ module.exports = function (opts) {
       return next()
     }
 
+    var basedir = row.basedir || opts.basedir || process.cwd()
     if (row.dependenciesFilter && row.deps) {
-      dependenciesFilter[path.resolve(opts.basedir, row.dependenciesFilter)] = row.deps
+      dependenciesFilter[path.resolve(basedir, row.dependenciesFilter)] = row.deps
       return next()
     }
 
@@ -41,7 +42,7 @@ module.exports = function (opts) {
     row = mix({}, row)
 
     row.file = row.file || row.id || fakeFile()
-    row.file = path.resolve(opts.basedir, row.file)
+    row.file = path.resolve(basedir, row.file)
 
     inputs.push(row)
 
