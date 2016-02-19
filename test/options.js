@@ -235,9 +235,9 @@ test('resolve', function(tt) {
 })
 
 test('transform', function(tt) {
-  var atImport = require('postcss-import')
+  var atImport = require('postcss-simple-import')
   var vars = require('postcss-advanced-variables')
-  var url = require('postcss-url')
+  var url = require('postcss-custom-url')
   var postcss = require('postcss')
   var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'transform')
 
@@ -300,9 +300,9 @@ test('transform', function(tt) {
 })
 
 test('processor', function(tt) {
-  var atImport = require('postcss-import')()
+  var atImport = require('postcss-simple-import')()
   var vars = require('postcss-advanced-variables')()
-  var url = require('postcss-url')()
+  var url = require('postcss-custom-url')()
 
   var fixtures = path.resolve.bind(path, __dirname, 'fixtures', 'transform')
 

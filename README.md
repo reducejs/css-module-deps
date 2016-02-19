@@ -1,24 +1,25 @@
 # css-module-deps
 [![version](https://img.shields.io/npm/v/css-module-deps.svg)](https://www.npmjs.org/package/css-module-deps)
-[![status](https://travis-ci.org/zoubin/css-module-deps.svg?branch=master)](https://travis-ci.org/zoubin/css-module-deps)
-[![coverage](https://img.shields.io/coveralls/zoubin/css-module-deps.svg)](https://coveralls.io/github/zoubin/css-module-deps)
-[![dependencies](https://david-dm.org/zoubin/css-module-deps.svg)](https://david-dm.org/zoubin/css-module-deps)
-[![devDependencies](https://david-dm.org/zoubin/css-module-deps/dev-status.svg)](https://david-dm.org/zoubin/css-module-deps#info=devDependencies)
+[![status](https://travis-ci.org/reducejs/css-module-deps.svg?branch=master)](https://travis-ci.org/reducejs/css-module-deps)
+[![coverage](https://img.shields.io/coveralls/reducejs/css-module-deps.svg)](https://coveralls.io/github/reducejs/css-module-deps)
+[![dependencies](https://david-dm.org/reducejs/css-module-deps.svg)](https://david-dm.org/reducejs/css-module-deps)
+[![devDependencies](https://david-dm.org/reducejs/css-module-deps/dev-status.svg)](https://david-dm.org/reducejs/css-module-deps#info=devDependencies)
+![node](https://img.shields.io/node/v/css-module-deps.svg)
 
 Walk the css dependency graph to generate a stream of json output.
 
 ## Related
-* [depsify](https://github.com/zoubin/depsify)
-* [reduce-css](https://github.com/zoubin/reduce-css)
-* [reduce-css-postcss](https://github.com/zoubin/reduce-css-postcss)
+* [depsify](https://github.com/reducejs/depsify)
+* [reduce-css](https://github.com/reducejs/reduce-css)
+* [reduce-css-postcss](https://github.com/reducejs/reduce-css-postcss)
 
 ## Example
 
 ```javascript
 var Deps = require('..')
 var path = require('path')
-var url = require('postcss-url')
-var atImport = require('postcss-import')
+var url = require('postcss-custom-url')
+var atImport = require('postcss-simple-import')
 var vars = require('postcss-advanced-variables')
 var JSONStream = require('JSONStream')
 

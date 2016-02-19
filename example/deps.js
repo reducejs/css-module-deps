@@ -1,7 +1,7 @@
 var Deps = require('..')
 var path = require('path')
-var url = require('postcss-url')
-var atImport = require('postcss-import')
+var url = require('postcss-custom-url')
+var atImport = require('postcss-simple-import')
 var vars = require('postcss-advanced-variables')
 var JSONStream = require('JSONStream')
 

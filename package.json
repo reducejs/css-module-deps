@@ -4,13 +4,14 @@
   "description": "walk the css dependency graph to generate a stream of json output",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && tap --cov test/*.js",
+    "test": "npm run lint && tap test/*.js",
     "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
-    "coveralls": "COVERALLS_REPO_TOKEN=zrqTMFlcjUErJgik7H3DieB5rHLfYj4NR npm test"
+    "cov": "tap --cov test/*.js",
+    "coveralls": "COVERALLS_REPO_TOKEN=QSOIZ0cF9MztsL1IK89Xd4f12u99Y6iqp npm run cov"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoubin/css-module-deps.git"
+    "url": "git+https://github.com/reducejs/css-module-deps.git"
   },
   "keywords": [
     "css",
@@ -22,10 +23,13 @@
   ],
   "author": "zoubin",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zoubin/css-module-deps/issues"
+  "engines": {
+    "node": ">=4.2.1"
   },
-  "homepage": "https://github.com/zoubin/css-module-deps#readme",
+  "bugs": {
+    "url": "https://github.com/reducejs/css-module-deps/issues"
+  },
+  "homepage": "https://github.com/reducejs/css-module-deps#readme",
   "dependencies": {
     "custom-resolve": "^1.0.0",
     "mixy": "^1.0.0",
@@ -37,10 +41,10 @@
   "devDependencies": {
     "JSONStream": "^1.0.6",
     "concat-stream": "^1.5.1",
-    "eslint": "^1.10.1",
+    "eslint": "^2.1.0",
     "postcss-advanced-variables": "^1.1.0",
-    "postcss-import": "^7.0.0",
-    "postcss-url": "^5.0.2",
+    "postcss-simple-import": "^3.0.0",
+    "postcss-custom-url": "^4.0.0",
     "tap": "^5.0.0"
   }
 }
